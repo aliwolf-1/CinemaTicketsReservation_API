@@ -25,7 +25,6 @@ router.register('Reservations', views.viewsets_res)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.generics_list.as_view()),
 
     #1
     path('django/jsonresponsenomodel/', views.no_rest_no_model),
