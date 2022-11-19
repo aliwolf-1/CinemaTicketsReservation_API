@@ -25,6 +25,9 @@ router.register('Reservations', views.viewsets_res)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    # First Page
+
     path('', views.generics_list.as_view()),
 
     #1
@@ -61,7 +64,15 @@ urlpatterns = [
     path('rest/viewsets/' , include(router.urls)),
 
     #8 find movie
-    path('fbv/findmovie/' , views.find_movie)
+    path('fbv/findmovie/' , views.find_movie),
+
+    #9 new reservations
+
+    path('fbv/newreservations/' , views.new_reservation),
+    
+    #10
+    
+    path('api-auth', include('rest_framework.urls')),
 
 
 ]

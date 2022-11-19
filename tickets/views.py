@@ -34,7 +34,7 @@ def no_rest_from_model(requset):
         'guests': list(date.values('name', 'mobile'))
     }
     return JsonResponse(response)
-#__________________________________________________________
+#______________________________________________________________
 
 #3 Function based views
 #3.1 GET POST
@@ -75,7 +75,7 @@ def FBV_PK(requset , pk):
         guest.delete()
         return Response(status= status.HTTP_204_NO_CONTENT)
        
-#___________________________________________________________
+#______________________________________________________________
 
 # CVB Class based views
 #4.1 List and Create == GET and POST
@@ -117,7 +117,7 @@ class CBV_PK(APIView):
         guest.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
       
-#____________________________________________________________
+#______________________________________________________________
 
 #5.1 mixins list
 class mixins_list(mixins.ListModelMixin,mixins.CreateModelMixin, generics.GenericAPIView):
@@ -138,7 +138,7 @@ class mixins_pk(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.Destr
     def delete(self , request , pk):
         return self.destroy(request)
 
-#_____________________________________________________________
+#______________________________________________________________
 
 #GENERICS
 #6.1 GET and POST Generics
@@ -156,6 +156,8 @@ class generics_pk(generics.RetrieveUpdateDestroyAPIView):
 class viewsets_guest(viewsets.ModelViewSet):
     queryset = Guest.objects.all()
     serializer_class = GusetSerilalizer
+    filter_backends = [filters.SearchFilter]
+    search_fields =  ['name']
 
 class viewsets_movie(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
@@ -167,6 +169,9 @@ class viewsets_res(viewsets.ModelViewSet):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerilalizer
 
+#______________________________________________________________
+
+# find movie
 @api_view(['GET'])
 def find_movie(requset):
     movies = Movie.objects.filter(
@@ -176,3 +181,23 @@ def find_movie(requset):
     )
     serializer = MovieSerilalizer(movies , many=True)
     return Response(serializer.data)
+
+# post new reservation
+@api_view(['POST'])
+def new_reservation(requset):
+    movie = Movie.objects.get(
+        hall = requset.data['hall'],
+        movie = requset.data['movie']
+    )
+    guest = Guest()
+    guest.name = requset.data['name']
+    guest.mobile = requset.data['mobile']
+    guest.save()
+
+    reservation = Reservation()
+    reservation.guest = guest
+    reservation.movie = movie
+    reservation.save()
+
+    return Response(status=status.HTTP_201_CREATED)
+
