@@ -25,6 +25,7 @@ router.register('Reservations', views.viewsets_res)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.generics_list.as_view()),
 
     #1
     path('django/jsonresponsenomodel/', views.no_rest_no_model),
@@ -51,7 +52,7 @@ urlpatterns = [
     path('rest/mix/<int:pk>', views.mixins_pk.as_view()),
 
     #6.1 GET POST from rest framework class based generics
-    path('rest/generics/', views.generics_list.as_view()),
+    #path('rest/generics/', views.generics_list.as_view()),
 
     #6.2 GET PUT DELETE from rest framework class based generics
     path('rest/generics/<int:pk>', views.generics_pk.as_view()),
