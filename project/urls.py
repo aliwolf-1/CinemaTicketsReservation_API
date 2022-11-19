@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path , include
 from tickets import views
 from rest_framework.routers import DefaultRouter
+from rest_framework.authtoken.views import obtain_auth_token
 
 router = DefaultRouter()
 router.register('guests', views.viewsets_guest)
@@ -28,7 +29,7 @@ urlpatterns = [
 
     # First Page
 
-    path('', views.generics_list.as_view()),
+    #path('', views.generics_list.as_view()),
 
     #1
     path('django/jsonresponsenomodel/', views.no_rest_no_model),
@@ -55,7 +56,7 @@ urlpatterns = [
     path('rest/mix/<int:pk>', views.mixins_pk.as_view()),
 
     #6.1 GET POST from rest framework class based generics
-    #path('rest/generics/', views.generics_list.as_view()),
+    path('rest/generics/', views.generics_list.as_view()),
 
     #6.2 GET PUT DELETE from rest framework class based generics
     path('rest/generics/<int:pk>', views.generics_pk.as_view()),
@@ -71,8 +72,12 @@ urlpatterns = [
     path('fbv/newreservations/' , views.new_reservation),
     
     #10
-    
+
     path('api-auth', include('rest_framework.urls')),
+
+    #11
+
+    path('api-auth-token' , obtain_auth_token),
 
 
 ]
